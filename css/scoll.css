@@ -16,9 +16,7 @@ body {
 }
 .swiper-slide {
     text-align: center;
-    font-size: 18px;
-    background:url(../images/snow/timg.png) no-repeat 100% 100%;
-
+    font-size: 18px;  
     /* Center slide text vertically */
     display: -webkit-box;
     display: -ms-flexbox;
@@ -33,3 +31,9 @@ body {
     -webkit-align-items: center;
     align-items: center;
 }
+.slide-1{
+    background:url(../images/one/bg.jpg) no-repeat;
+    background-size: 100% 100%;  
+    -moz-background-size: 100% 100%;  
+    -webkit-background-size: 100% 100%; 
+} 

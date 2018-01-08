@@ -3,7 +3,7 @@
 		var oImgs  = document.getElementById("meni_list").getElementsByTagName("img");
 		var open  = true;
 		var du =-360;
-		var iLeft=-200;
+		var iLeft=-150;
 		var speed=0.5;
 		for(var j=0;j<oImgs.length;j++){
 			oImgs[j].addEventListener('touchstart',function(){
@@ -28,7 +28,7 @@
 					oImgs[i].style.top=tXz(iLeft,90/4*i).t+"px";
 					oImgs[i].style.transform="rotate("+du+"deg)";
 					//var a="0.5s "+i*50+"ms"; 
-					oImgs[i].style.transition="0.5s "+i*50+"ms";
+					oImgs[i].style.transition="0.5s "+i*500+"ms";
 				}
 				du=0;
 			}else{
@@ -38,7 +38,7 @@
 					oImgs[i].style.left="0px";
 					oImgs[i].style.top="0px";
 					oImgs[i].style.transform="rotate("+du+"deg)";
-					oImgs[i].style.transition="0.5s "+(oImgs.length-i)*50+"ms";
+					oImgs[i].style.transition="0.5s "+(oImgs.length-i)*500+"ms";
 				}
 				du=-360;
 			}
@@ -74,3 +74,32 @@
 	　　　　}
  })
 
+/**
+* 导航扇形背景效果
+*/
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+var deg = Math.PI/180;
+	// 开始一条新路径
+	ctx.beginPath();
+	// 位移到圆心，方便绘制
+	ctx.translate(100, 100);
+	// 移动到圆心
+	ctx.moveTo(0, 0);
+	// 绘制圆弧
+	// ctx.arc(0, 0, 100, 30*deg, Math.PI * 1);
+	ctx.sector(100,100,110,130*deg,268*deg);
+menuBg(ctx);
+function menuBg(obj){	    	
+				// 闭合路径
+				//ctx.closePath();
+	// var color = '#d21326';
+	// var index=268;//92
+	// 	setInterval(function(){
+	// 			index--;
+	// 			var c =(index-1)*deg;			
+	// 			obj.sector(100,100,110,c,273*deg);
+	// 			obj.fillStyle=color;	
+	// 			obj.fill();
+	// 	},15);
+}
