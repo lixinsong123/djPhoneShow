@@ -24,5 +24,5 @@ CanvasRenderingContext2D.prototype.sector = function (x, y, radius, sDeg, eDeg) 
 				// 还原到最初保存的状态
 				this.restore();
 				return this;
-			}
+}
 

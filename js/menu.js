@@ -19,6 +19,11 @@
 				this.style.opacity  ="1";
 				removeEnd(this,end)
 		}
+		 window.can = new MenuCanvas();
+		 window.can.init({
+		    	'can' : document.getElementById('canvas'),
+		    });
+		    
 		home_controller.addEventListener('touchstart',function(){
 			if(open){
 				this.style.transform = "rotate("+du+"deg)";
@@ -28,8 +33,9 @@
 					oImgs[i].style.top=tXz(iLeft,90/4*i).t+"px";
 					oImgs[i].style.transform="rotate("+du+"deg)";
 					//var a="0.5s "+i*50+"ms"; 
-					oImgs[i].style.transition="0.5s "+i*500+"ms";
+					oImgs[i].style.transition="0.5s "+i*300+"ms";
 				}
+				window.can.startMenuBg();
 				du=0;
 			}else{
 				this.style.transform = "rotate("+du+"deg)";
@@ -38,9 +44,10 @@
 					oImgs[i].style.left="0px";
 					oImgs[i].style.top="0px";
 					oImgs[i].style.transform="rotate("+du+"deg)";
-					oImgs[i].style.transition="0.5s "+(oImgs.length-i)*500+"ms";
+					oImgs[i].style.transition="0.5s "+(oImgs.length-i)*300+"ms";
 				}
 				du=-360;
+				window.can.closeMenuBg();
 			}
 			open=!open;
 		});
@@ -77,29 +84,68 @@
 /**
 * 导航扇形背景效果
 */
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
-var deg = Math.PI/180;
-	// 开始一条新路径
-	ctx.beginPath();
-	// 位移到圆心，方便绘制
-	ctx.translate(100, 100);
-	// 移动到圆心
-	ctx.moveTo(0, 0);
-	// 绘制圆弧
-	// ctx.arc(0, 0, 100, 30*deg, Math.PI * 1);
-	ctx.sector(100,100,110,130*deg,268*deg);
-menuBg(ctx);
-function menuBg(obj){	    	
-				// 闭合路径
-				//ctx.closePath();
-	// var color = '#d21326';
-	// var index=268;//92
-	// 	setInterval(function(){
-	// 			index--;
-	// 			var c =(index-1)*deg;			
-	// 			obj.sector(100,100,110,c,273*deg);
-	// 			obj.fillStyle=color;	
-	// 			obj.fill();
-	// 	},15);
+function MenuCanvas(){
+	//Canval对象
+	this.canvas  = null;
+	this.ctx     = null;
+	//定时器
+	this.TimeVal = null;
+	this.index   = null;
+	this.Config = {
+		//索引
+		'startIndex' : 268,
+		'endIndex'   : 130,
+		'color'      : 'rgba(0,0,0,0.3)',
+		//角度
+		'deg'        : Math.PI/180
+	};
+	this.init = function(json){
+		this.canvas = json.can;
+		this.ctx = this.canvas.getContext('2d');
+		this.index = this.Config.startIndex;
+	};
+	this.operation = function(){
+		// 开始一条新路径
+		this.ctx.beginPath();
+		// 位移到圆心，方便绘制
+		this.ctx.translate(100, 100);
+		// 移动到圆心
+		this.ctx.moveTo(0, 0);
+	}
+	this.startMenuBg = function(){
+		this.ctx.closePath();
+		clearInterval(this.TimeVal);
+		var This =this;
+	 	this.TimeVal = setInterval(function(){
+	 			This.index--;
+	 			var c =(This.index)*This.Config.deg;
+	 			This.canvas.height=This.canvas.height;
+	 			This.operation();	
+				This.ctx.sector(100,100,110,c,273*This.Config.deg);
+	 			This.ctx.fillStyle=This.Config.color;	
+	 			This.ctx.fill();
+	 			if(This.index == This.Config.endIndex){
+	 				This.ctx.closePath();
+	 				clearInterval(This.TimeVal);
+	 			}
+	 	},15);
+	}
+	this.closeMenuBg = function(){
+		this.ctx.closePath();
+		clearInterval(this.TimeVal);
+		var This =this;
+	 	this.TimeVal = setInterval(function(){
+	 			This.index++;
+	 			var c =(This.index)*This.Config.deg;
+	 			This.canvas.height=This.canvas.height;
+	 			This.operation();	
+     			This.ctx.sector(100,100,110,c,273*This.Config.deg);
+	 			This.ctx.fillStyle=This.Config.color;	
+	 			This.ctx.fill();
+	 			if(This.index == This.Config.startIndex+5){
+	 				This.ctx.closePath();
+	 				clearInterval(This.TimeVal);
+	 			}
+	 	},15);
+   }
 }
